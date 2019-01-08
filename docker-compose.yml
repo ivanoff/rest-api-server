@@ -1,0 +1,42 @@
+version: '3'
+
+networks:
+  local:
+    driver: bridge
+    ipam:
+      config:
+      - subnet:  192.168.126.1/24
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api_node
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - TOKEN_SECRET=${TOKEN_SECRET}
+      - TOKEN_EXPIRE=${TOKEN_EXPIRE}
+      - ADMIN_LOGIN=${ADMIN_LOGIN}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    volumes:
+      - ./opt/api:/opt/api
+    working_dir: /opt/api
+    ports:
+      - 8877:${PORT}
+    networks:
+      local:
+        ipv4_address: 192.168.126.10
+    tty: true
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_DATA_DIR=./db
+    volumes:
+      - ./db:/data/db
+    command: mongod --smallfiles
+    networks:
+      local:
+        ipv4_address: 192.168.126.2
