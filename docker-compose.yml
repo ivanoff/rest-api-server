@@ -1,42 +1,31 @@
 version: '3'
 
-networks:
-  local:
-    driver: bridge
-    ipam:
-      config:
-      - subnet:  192.168.126.1/24
-
 services:
   node:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:latest
     container_name: api_node
+    working_dir: /opt/api
+    volumes:
+      - ./src:/opt/api
+      - ./config.js:/opt/api/config.js
     environment:
       - NODE_ENV=${NODE_ENV}
       - TOKEN_SECRET=${TOKEN_SECRET}
       - TOKEN_EXPIRE=${TOKEN_EXPIRE}
       - ADMIN_LOGIN=${ADMIN_LOGIN}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
-    volumes:
-      - ./opt/api:/opt/api
-    working_dir: /opt/api
+      - DB_URL=mongo:27017
     ports:
       - 8877:${PORT}
-    networks:
-      local:
-        ipv4_address: 192.168.126.10
+    links:
+      - mongo
     tty: true
+    command:
+      sh -c 'npm init --force && npm i -S create-rest-api && node index.js'
 
-  mongodb:
+  mongo:
     image: mongo:latest
-    container_name: mongodb
-    environment:
-      - MONGO_DATA_DIR=./db
+    container_name: api_mongo
     volumes:
-      - ./db:/data/db
+      - ./data:/data/db
     command: mongod --smallfiles
-    networks:
-      local:
-        ipv4_address: 192.168.126.2
