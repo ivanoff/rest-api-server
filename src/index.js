@@ -1,19 +1,22 @@
+const config = require('./config');
 const Api = require('create-rest-api');
-const api = new Api({
-  token: {
-    secret: '1//⟶Sǝcяeť✙', // token's secret, required
-    expire: 60 * 10,    // 10 minutes token expired, not required, default is 1 minute
-  },
-});
 
-api.model('comments');  // /comments are free to anyone
+const {TOKEN_SECRET: secret, TOKEN_EXPIRE: expire, ADMIN_LOGIN: login, ADMIN_PASSWORD: password} = process.env;
+const token = {secret, expire};
+const admin = {login, password};
 
-api.needToken();        // after that etheryfing will be checked for token ( X-Access-Token in headers, use /login to get one )
+const api = new Api({token, admin});
 
-api.model('movies', {   // for login store use /my/{login}/movies, for group store - /our/{group}/movies, others - /movies
-  stars: { link: 'stars' },
-});
+for(let model of Object.keys(config.freeAccess)) {
+  api.model(model);
+}
 
-api.model('stars');     // for login store use /my/{login}/stars, for group store - /our/{group}/stars, others - /stars
+api.needToken();
+
+for(let model of config.models) {
+  let linkModel = config.links[model];
+  let link = linkModel? {[linkModel]: {link: model}} : {};
+  api.model(model, link);
+}
 
 api.start();

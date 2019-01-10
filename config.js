@@ -4,10 +4,10 @@ module.exports = {
     'movies',
     'comments',
   ],
-  freeAccess: [
-    'comments',
-  ],
-  links: [
-    movies: 'stars'
-  ],
+  freeAccess: {
+    comments: ['GET', 'POST'],
+  },
+  links: {
+    movies: 'stars',
+  },
 }
