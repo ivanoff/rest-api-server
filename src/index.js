@@ -1,5 +1,5 @@
 const config = require('./config');
-const Api = require('create-rest-api');
+const Api = require('api-i');
 
 const {TOKEN_SECRET: secret, TOKEN_EXPIRE: expire, ADMIN_LOGIN: login, ADMIN_PASSWORD: password} = process.env;
 const token = {secret, expire};
