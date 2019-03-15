@@ -22,7 +22,7 @@ services:
     ports:
       - 8877:${PORT}
     links:
-      - api_postgresql
+      - postgresql
     tty: true
     command:
       sh -c 'npm init --force && npm i -S api-i && node index.js'
