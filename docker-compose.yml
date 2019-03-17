@@ -25,7 +25,7 @@ services:
       - postgresql
     tty: true
     command:
-      sh -c 'npm init --force && npm i -S api-i && node index.js'
+      sh -c 'npm init --force && npm i -S api-i && npm i -S pg && node index.js'
 
   postgresql:
     image: postgres:latest
