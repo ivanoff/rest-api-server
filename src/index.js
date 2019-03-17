@@ -11,8 +11,6 @@ for(let model of Object.keys(config.freeAccess)) {
   api.model(model);
 }
 
-api.needToken();
-
 for(let model of config.models) {
   let linkModel = config.links[model];
   let link = linkModel? {[linkModel]: {link: model}} : {};
