@@ -14,7 +14,7 @@ services:
       - TOKEN_SECRET=${TOKEN_SECRET}
       - TOKEN_EXPIRE=${TOKEN_EXPIRE}
       - DB_CLIENT=postgres
-      - DB_HOST=api_postgresql
+      - DB_HOST=postgresql
       - DB_PORT=5432
       - DB_USER=api
       - DB_PASSWORD=apiPass

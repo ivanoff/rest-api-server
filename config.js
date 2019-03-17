@@ -1,10 +1,10 @@
 module.exports = {
 
-  models: {
+  models: [
     stars: { name: 'string', birth: 'date' },
     movies: { name: 'string' },
     comments: { title: 'string', comment: { type: 'string', required: true } },
-  },
+  ],
 
   links: {
     movies: ['stars', 'comments'],
