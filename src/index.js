@@ -7,14 +7,14 @@ const admin = {login, password};
 
 const api = new Api({token, admin});
 
-for(let model of Object.keys(config.freeAccess)) {
-  api.model(model);
+for(let model of Object.keys(config.models)) {
+  const links = config.links[model] || {};
+  const openMethods = config.freeAccess[model] || {};
+  api.model(model, config.models[model], { links, openMethods });
 }
 
-for(let model of config.models) {
-  let linkModel = config.links[model];
-  let link = linkModel? {[linkModel]: {link: model}} : {};
-  api.model(model, link);
+for(let user of config.users) {
+  api.user(user);
 }
 
 api.start();
