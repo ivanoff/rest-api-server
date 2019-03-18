@@ -7,14 +7,16 @@ const admin = {login, password};
 
 const api = new Api({token, admin});
 
-for(let model of Object.keys(config.models)) {
-  const links = config.links[model] || {};
-  const openMethods = config.freeAccess[model] || {};
-  api.model(model, config.models[model], { links, openMethods });
-}
+(async() => {
+  for(let model of Object.keys(config.models)) {
+    const links = config.links[model] || {};
+    const openMethods = config.freeAccess[model] || {};
+    await api.model(model, config.models[model], { links, openMethods });
+  }
 
-for(let user of config.users) {
-  api.user(user);
-}
+  for(let user of config.users) {
+    await api.user(user);
+  }
 
-api.start();
+  await api.start();
+})();
