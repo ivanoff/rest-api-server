@@ -9,8 +9,8 @@ const api = new Api({...config, ...token, admin});
 
 (async() => {
   for(let model of Object.keys(config.models)) {
-    const links = config.links[model] || {};
-    const openMethods = config.freeAccess[model] || {};
+    const links = config.links[model];
+    const openMethods = config.freeAccess[model];
     await api.model(model, config.models[model], { links, openMethods });
   }
 

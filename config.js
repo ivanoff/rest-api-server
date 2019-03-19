@@ -19,19 +19,4 @@ module.exports = {
     { login: 'l', md5: '83878c91171338902e0fe0fb97a8c47a' },
   ],
 
-  server: {
-    host: 'localhost',
-    port: 8877,
-  },
-
-  db: {
-    client: 'sqlite3',
-    connection: ':memory:',
-  },
-
-  token: {
-    secret: 'REPLACE_IT',
-    expire: 10,
-  },
-
 }
