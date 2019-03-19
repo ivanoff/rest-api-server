@@ -2,10 +2,10 @@ const config = require('./config');
 const Api = require('api-i');
 
 const {TOKEN_SECRET: secret, TOKEN_EXPIRE: expire, ADMIN_LOGIN: login, ADMIN_PASSWORD: password} = process.env;
-const token = {secret, expire};
+const token = secret? {token: {secret, expire}} : {};
 const admin = {login, password};
 
-const api = new Api({token, admin});
+const api = new Api({...config, ...token, admin});
 
 (async() => {
   for(let model of Object.keys(config.models)) {
